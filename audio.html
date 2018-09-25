@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>web audio</title>
+</head>
+<body>
+    <button id="pause">通过web audio 停止 5s后自启</button>
+    <script>
+        var pauseBtn = document.getElementById('pause');
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var source;
+        function getData() {
+            source = audioCtx.createBufferSource();
+            var request = new XMLHttpRequest();
+            request.open('GET', './audio/avchat_ring.mp3', true);
+            request.responseType = 'arraybuffer';
+            request.onload = function() {
+                var audioData = request.response;
+                audioCtx.decodeAudioData(audioData)
+                .then(function(buffer) {
+                    source.buffer = buffer;
+                    source.connect(audioCtx.destination);
+                    source.loop = true;
+                }).catch(function(err) {
+                    console.log("Error with decoding audio data" + e.err);
+                })
+            }
+            request.send();
+        }
+
+        getData();
+        source.start(0);
+
+        pauseBtn.addEventListener("click", function() {
+            source.stop(0);
+            setTimeout(function() {
+                getData();
+                source.start(0);
+            }, 5000)
+        }, false)
+    </script>
+</body>
+</html>

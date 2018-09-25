@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>chrome禁止非用户触发的音乐和视频播放行为</title>
+    <script>
+        window.onload = function() {
+            
+        }
+    </script>
+    <style>
+        .instance-box {
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+        }
+        .instance-box .header {
+            font-weight: 700
+        }
+        .error-msg {
+            color: red;
+        }
+    </style>
+</head>
+    <body>
+        <p>最近在一个案例中发现音乐不能正常播放问题，原来chrome禁止了非用户触发的音乐等视频播放，这对于一些应用的运用场景很不友好</p>
+        <div class="instance-box">
+            <p class="header">1.我们即使加上了autoplay但是还是不能自动播放音频</p>
+            <p class="error-msg">错误详情：Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.</p>
+            <p>2018年4月份google自动播放的策略发生改变，禁止了自动播放的功能，打开控制台</p>
+            <audio controls="controls" autoplay="autoplay" loop="loop">
+                <source src="./audio/avchat_ring.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <script>
+            let audio = document.querySelector('audio');
+            audio.play();
+        </script>
+    </body>
+</html>
